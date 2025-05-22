@@ -40,7 +40,8 @@ public class LancerRaytracer {
         // - x0 et y0 : correspondant au coin haut à gauche
         // - l et h : hauteur et largeur de l'image calculée
         // Ici on calcule toute l'image (0,0) -> (largeur, hauteur)
-        
+
+
         int x0 = 0, y0 = 0;
         int l = largeur, h = hauteur;
                 
