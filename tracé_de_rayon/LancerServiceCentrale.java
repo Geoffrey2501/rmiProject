@@ -16,16 +16,16 @@ public class LancerServiceCentrale {
 
         try {
             // Création de la centrale
-            Centrale centrale = new Centrale();
+            ServiceCentrale centrale = new Centrale();
             // Exportation de la centrale pour RMI
-            Centrale centraleRMI = (Centrale) java.rmi.server.UnicastRemoteObject.exportObject(centrale, 0);
+            ServiceCentrale centraleRMI = (ServiceCentrale) java.rmi.server.UnicastRemoteObject.exportObject(centrale, 0);
             // Enregistrement de la centrale dans le registre RMI
             LocateRegistry.createRegistry(port);
             Registry reg = LocateRegistry.getRegistry(ip, port);
-            reg.rebind("Centrale", (Remote) centraleRMI);
+            reg.rebind("Centrale", centraleRMI);
 
             // Affichage d'un message de confirmation
-            System.out.println("Centrale lancée sur le port " + port);
+            System.out.println("Centrale lancée sur le port " + port + " et enregistrée à l'adresse " + ip);
         } catch (Exception e) {
             e.printStackTrace();
         }

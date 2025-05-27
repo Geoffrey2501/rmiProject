@@ -1,15 +1,12 @@
 import raytracer.Image;
-import raytracer.Scene;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class Centrale implements ServiceCentrale{
     private ArrayList<ServiceCalculatoire> services;
     private ArrayList<Image> images;
-
+    private Iterator<ServiceCalculatoire> it;
     public Centrale(){
         this.services = new ArrayList<>();
         images = new ArrayList<>();
@@ -21,8 +18,11 @@ public class Centrale implements ServiceCentrale{
     }
 
     @Override
-    public ArrayList<ServiceCalculatoire> getServices() {
-        return services;
+    public ServiceCalculatoire getService() {
+        if(it == null || !it.hasNext()) {
+            it = services.iterator();
+        }
+        return it.next();
     }
 }
 

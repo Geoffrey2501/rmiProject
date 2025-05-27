@@ -6,7 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class LancerServiceCalculatoire {
     public static void main(String[] args) {
         String ip = "localhost";
-        int port = 1099;// Adresse IP par défaut
+        int port = 0;// Adresse IP par défaut
         // Vérification des arguments
         if (args.length >= 1) {
            ip = args[0];
@@ -20,7 +20,7 @@ public class LancerServiceCalculatoire {
             // Création du service de calcul
             ServiceCalculatoire service = (ServiceCalculatoire) UnicastRemoteObject.exportObject(serviceCalculatoire, 0);
             Registry reg = LocateRegistry.getRegistry(ip, port);
-            Centrale centrale = (Centrale) reg.lookup("Centrale");
+            ServiceCentrale centrale = (ServiceCentrale) reg.lookup("Centrale");
             // Enregistrement du service auprès de la centrale
             centrale.Enregistrer(service);
 
