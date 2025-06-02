@@ -10,10 +10,10 @@ public class ServiceRaytracer implements ServiceAffichage {
         Disp disp = new Disp("Raytracer", l, h);
         try {
 
-            int Iy = h / 50;
-            int Ix = l / 50;
-            for (int y = 0; y <= h; y += Iy) {
-                for (int x = 0; x <= l; x += Ix) {
+            int Iy = h / 2;
+            int Ix = l / 2;
+            for (int y = 0; y < h; y += Iy) {
+                for (int x = 0; x < l; x += Ix) {
                     int finalX = x;
                     int finalY = y;
                     final ServiceCalculatoire service = centrale.getService();
@@ -21,7 +21,7 @@ public class ServiceRaytracer implements ServiceAffichage {
                             () -> {
                                 try {
                                     System.out.println("Calcul de l'image pour " + finalX + ", " + finalY);
-                                    disp.setImage(service.calculer(scene, Ix, Iy, l, h), finalX, finalY);
+                                    disp.setImage(service.calculer(scene, finalX, finalY, Ix, Iy), finalX, finalY);
                                     System.out.println("Image calculée pour " + finalX + ", " + finalY);
                                 } catch (RemoteException | NoSuchElementException e) {
                                     e.printStackTrace();

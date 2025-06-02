@@ -1,3 +1,4 @@
+import raytracer.Disp;
 import raytracer.Image;
 import raytracer.Scene;
 
@@ -25,7 +26,8 @@ public class LancerRaytracerService {
             // Exportation du service pour RMI
             ServiceAffichage service = (ServiceAffichage) UnicastRemoteObject.exportObject(serviceRaytracer, 0);
 
-            Scene scene = new Scene("./tracé_de_rayon/simple.txt", l, h);
+            Scene scene = new Scene("./src/simple.txt", l, h);
+
             Registry reg = LocateRegistry.getRegistry(ip, port);
             ServiceCentrale centrale = (ServiceCentrale) reg.lookup("Centrale");
             // Charger une scène par défaut
