@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ServiceCentrale extends Remote {
 
-    public void Enregistrer(ServiceCalculatoire service) throws RemoteException;
-    ServiceCalculatoire getService() throws RemoteException;
+    void Enregistrer(ServiceCalculatoire service) throws RemoteException;
+    void utiliserService(ServiceAffichage a, int l, int h) throws RemoteException;
 
 }

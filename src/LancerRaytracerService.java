@@ -21,18 +21,17 @@ public class LancerRaytracerService {
         }
 
         try {
-            // Création du service de raytracing
-            ServiceAffichage serviceRaytracer = new ServiceRaytracer();
+            Scene scene = new Scene("./src/simple.txt", l, h);
+
+            ServiceAffichage serviceRaytracer = new ServiceRaytracer(scene, l, h);
             // Exportation du service pour RMI
             ServiceAffichage service = (ServiceAffichage) UnicastRemoteObject.exportObject(serviceRaytracer, 0);
-
-            Scene scene = new Scene("./src/simple.txt", l, h);
 
             Registry reg = LocateRegistry.getRegistry(ip, port);
             ServiceCentrale centrale = (ServiceCentrale) reg.lookup("Centrale");
             // Charger une scène par défaut
             // Enregistrement du service auprès de la centrale
-            service.afficherResultat(scene, l, h, centrale); // Passer une scène valide ici
+            centrale.utiliserService(service, l, h); // Passer une scène valide ici
 
             // Affichage d'un message de confirmation
             System.out.println("Service de raytracing lancé sur le port " + port + " et enregistré auprès de la centrale à l'adresse " + ip);

@@ -1,15 +1,16 @@
 import raytracer.Image;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Centrale implements ServiceCentrale{
-    private ArrayList<ServiceCalculatoire> services;
-    private ArrayList<Image> images;
+    private  ArrayList<ServiceCalculatoire> services;
+
     private Iterator<ServiceCalculatoire> it;
     public Centrale(){
         this.services = new ArrayList<>();
-        images = new ArrayList<>();
     }
 
 
@@ -18,11 +19,35 @@ public class Centrale implements ServiceCentrale{
     }
 
     @Override
-    public ServiceCalculatoire getService() {
-        if(it == null || !it.hasNext()) {
-            it = services.iterator();
+    public void utiliserService(ServiceAffichage a, int l, int h) {
+        // découpage de l'image en
+        int lPartager = l / 3;
+        int hPartager = l / 3;
+
+        for (int y = 0; y < h; y += hPartager) {
+            for (int x = 0; x < l; x += lPartager) {
+                int finalX = x;
+                int finalY = y;
+                it = services.iterator();
+                Thread t = new Thread(() -> {
+                    try {
+                        ServiceCalculatoire service;
+                        synchronized (services) {
+                            if (!it.hasNext()) {
+                                it = services.iterator();
+                            }
+                            service = it.next();
+                        }
+                        System.out.println("Calcul de l'image pour " + finalX + ", " + finalY);
+                        a.addImage(service.calculer(a.getScene(), finalX, finalY, lPartager, hPartager), finalX, finalY);
+                        System.out.println("Image calculée pour " + finalX + ", " + finalY);
+                    } catch (RemoteException | NoSuchElementException e) {
+                        e.printStackTrace();
+                    }
+                });
+                t.start();
+            }
         }
-        return it.next();
     }
 }
 
