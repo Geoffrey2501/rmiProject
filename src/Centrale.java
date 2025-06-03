@@ -41,8 +41,10 @@ public class Centrale implements ServiceCentrale{
                         System.out.println("Calcul de l'image pour " + finalX + ", " + finalY);
                         a.addImage(service.calculer(a.getScene(), finalX, finalY, lPartager, hPartager), finalX, finalY);
                         System.out.println("Image calculée pour " + finalX + ", " + finalY);
-                    } catch (RemoteException | NoSuchElementException e) {
-                        e.printStackTrace();
+                    } catch (RemoteException e) {
+                       it.remove();
+                    }catch (NoSuchElementException e) {
+                        System.out.println("Aucun service disponible pour le calcul de l'image à " + finalX + ", " + finalY);
                     }
                 });
                 t.start();
